@@ -27,38 +27,26 @@ const UserNameArr = [];
 const EmailArr = [];
 const PhoneArr = [];
 
-fetch("https://jsonplaceholder.typicode.com/users")
-  .then((response) => response.json())
-  .then((data) => {
-    console.log(data);
+let fetchUser = new Promise((res, rej) => {
+  fetch("https://jsonplaceholder.typicode.com/users")
+    .then((res) => res.json())
+    .then((data) => {
+      data.forEach((user) => {
+        NameArr.push(user.name);
+        UserNameArr.push(user.username);
+        EmailArr.push(user.email);
+        PhoneArr.push(user.phone);
+      });
 
-    data.forEach((user) => {
-      NameArr.push(user.name);
-      UserNameArr.push(user.username);
-      EmailArr.push(user.email);
-      PhoneArr.push(user.phone);
-    });
-
-    for (let i = 0; i < 7; i++) {
-      createInput(NameArr[i]);
-    }
-    for (let i = 0; i < 7; i++) {
-      createUserName(UserNameArr[i]);
-    }
-    for (let i = 0; i < 7; i++) {
-      createEmail(EmailArr[i]);
-    }
-    for (let i = 0; i < 7; i++) {
-      createPhone(PhoneArr[i]);
-    }
-    console.log(UserNameArr);
-    console.log(NameArr);
-  })
-  .catch((error) => {
-    console.error("There was a problem with the fetch operation:", error);
-  });
-
-console.log(NameArr);
+      for (let i = 0; i < 7; i++) {
+        createInput(NameArr[i]);
+        createUserName(UserNameArr[i]);
+        createEmail(EmailArr[i]);
+        createPhone(PhoneArr[i]);
+      }
+    })
+    .catch((error) => rej(error));
+});
 
 document.body.style.padding = "50px";
 
